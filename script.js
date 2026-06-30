@@ -219,3 +219,128 @@ document.head.appendChild(style);
     });
   });
 })();
+
+// --- Concerns Card Carousel ---
+(function() {
+  const concernsCard = document.getElementById('concernsCard');
+  if (!concernsCard) return;
+
+  const slides = concernsCard.querySelectorAll('.concern-slide');
+  const dotsContainer = document.getElementById('concernDots');
+  const currentText = document.getElementById('concernCurrent');
+  const totalText = document.getElementById('concernTotal');
+  const prevBtn = document.getElementById('prevConcern');
+  const nextBtn = document.getElementById('nextConcern');
+  const progressBar = document.getElementById('concernProgress');
+
+  if (slides.length === 0) return;
+
+  let currentIndex = 0;
+  const slideDuration = 4000; // 4 seconds
+  let slideInterval = null;
+
+  // Initialize total count text
+  if (totalText) totalText.textContent = slides.length;
+
+  // Generate dots
+  if (dotsContainer) {
+    slides.forEach((_, index) => {
+      const dot = document.createElement('div');
+      dot.className = `nav-dot${index === 0 ? ' active' : ''}`;
+      dot.setAttribute('aria-label', `Go to alert ${index + 1}`);
+      dot.addEventListener('click', () => {
+        goToSlide(index);
+        resetAutoplay();
+      });
+      dotsContainer.appendChild(dot);
+    });
+  }
+
+  // Set up event listeners for arrows
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      prevSlide();
+      resetAutoplay();
+    });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      nextSlide();
+      resetAutoplay();
+    });
+  }
+
+  function updateCarousel() {
+    // Update slides
+    slides.forEach((slide, index) => {
+      if (index === currentIndex) {
+        slide.classList.add('active');
+      } else {
+        slide.classList.remove('active');
+      }
+    });
+
+    // Update dots
+    if (dotsContainer) {
+      const dots = dotsContainer.querySelectorAll('.nav-dot');
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+      });
+    }
+
+    // Update counter
+    if (currentText) {
+      currentText.textContent = currentIndex + 1;
+    }
+
+    // Reset and start progress bar animation
+    resetProgressBar();
+  }
+
+  function resetProgressBar() {
+    if (!progressBar) return;
+    
+    // Stop any running transition by setting width to 0% and removing transition
+    progressBar.style.transition = 'none';
+    progressBar.style.width = '0%';
+    
+    // Force a reflow/repaint to ensure the browser registers the 0% width instantly
+    void progressBar.offsetWidth;
+    
+    // Re-enable transition and set to 100%
+    progressBar.style.transition = `width ${slideDuration}ms linear`;
+    progressBar.style.width = '100%';
+  }
+
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+    updateCarousel();
+  }
+
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % slides.length;
+    updateCarousel();
+  }
+
+  function goToSlide(index) {
+    currentIndex = index;
+    updateCarousel();
+  }
+
+  function startAutoplay() {
+    // Initial progress bar trigger
+    resetProgressBar();
+    
+    slideInterval = setInterval(() => {
+      nextSlide();
+    }, slideDuration);
+  }
+
+  function resetAutoplay() {
+    clearInterval(slideInterval);
+    startAutoplay();
+  }
+
+  // Start the slider
+  startAutoplay();
+})();

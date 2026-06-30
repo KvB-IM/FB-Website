@@ -143,15 +143,67 @@
             </div>
           </div>
           <div class="hero-visual">
-            <div class="hero-card-stack">
-              <div class="hero-card hero-card-fegli">
-                <img src="fbe_ad_fegli.png" alt="FEGLI Life Insurance Webinar" />
+            <div class="concerns-card" id="concernsCard">
+              <div class="concerns-header">
+                <div class="alert-badge">
+                  <span class="pulse-dot"></span>
+                  Benefits Alert Tracker
+                </div>
+                <div class="concerns-counter"><span id="concernCurrent">1</span>/<span id="concernTotal">10</span></div>
               </div>
-              <div class="hero-card hero-card-tsp">
-                <img src="fbe_ad_tsp.png" alt="TSP Retirement Webinar" />
+              <div class="concerns-content">
+                <div class="concern-slide active" data-index="0">
+                  <div class="concern-tag">TSP Retirement</div>
+                  <p class="concern-text">40%+ of federal employees are still in default G Fund, missing critical market growth.</p>
+                </div>
+                <div class="concern-slide" data-index="1">
+                  <div class="concern-tag">FEGLI Life Insurance</div>
+                  <p class="concern-text">Option B life insurance premiums can triple after age 50, creating a massive cost squeeze.</p>
+                </div>
+                <div class="concern-slide" data-index="2">
+                  <div class="concern-tag">Medicare Part B</div>
+                  <p class="concern-text">Late Medicare Part B enrollment adds a permanent 10% premium penalty for every year you delay.</p>
+                </div>
+                <div class="concern-slide" data-index="3">
+                  <div class="concern-tag">Estate Planning</div>
+                  <p class="concern-text">Your TSP-3 beneficiary form overrides your will in court. If outdated, your assets could go to an ex-spouse.</p>
+                </div>
+                <div class="concern-slide" data-index="4">
+                  <div class="concern-tag">FERS Pension</div>
+                  <p class="concern-text">The FERS Special Retirement Supplement disappears if your outside wages exceed $24,480.</p>
+                </div>
+                <div class="concern-slide" data-index="5">
+                  <div class="concern-tag">Pension Penalty</div>
+                  <p class="concern-text">Leaving federal service just 2 years before your MRA can slash your lifetime pension by 10%.</p>
+                </div>
+                <div class="concern-slide" data-index="6">
+                  <div class="concern-tag">Inflation Protection</div>
+                  <p class="concern-text">Your High-3 average salary locks in when you retire. It never adjusts for inflation prior to annuity start.</p>
+                </div>
+                <div class="concern-slide" data-index="7">
+                  <div class="concern-tag">FEHB Health</div>
+                  <p class="concern-text">You must meet the strict 5-year continuous coverage rule to carry FEHB into retirement.</p>
+                </div>
+                <div class="concern-slide" data-index="8">
+                  <div class="concern-tag">FERS Pension</div>
+                  <p class="concern-text">Unused sick leave adds to your retirement service credit, but rounding errors cost real cash.</p>
+                </div>
+                <div class="concern-slide" data-index="9">
+                  <div class="concern-tag">FEHB Health</div>
+                  <p class="concern-text">Most federal employees never review their health plan, overpaying by hundreds of dollars every year.</p>
+                </div>
               </div>
-              <div class="hero-card hero-card-fehb">
-                <img src="fbe_ad_fehb.png" alt="FEHB Health Insurance Webinar" />
+              <div class="concerns-progress">
+                <div class="progress-bar" id="concernProgress"></div>
+              </div>
+              <div class="concerns-nav">
+                <button class="nav-arrow" id="prevConcern" aria-label="Previous alert">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <div class="nav-dots" id="concernDots"></div>
+                <button class="nav-arrow" id="nextConcern" aria-label="Next alert">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
               </div>
             </div>
           </div>

@@ -218,7 +218,9 @@ document.head.appendChild(style);
       localStorage.setItem('theme', currentTheme);
     });
   });
-})()// --- Concerns Card Stack Slider ---
+})();
+
+// --- Concerns Card Stack Slider ---
 (function() {
   const concernsCard = document.getElementById('concernsCard');
   if (!concernsCard) return;

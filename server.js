@@ -32,70 +32,84 @@ const topicMap = {
   'all': 'All three equally'
 };
 
-// Function to refresh the access token via Zoho MCP Proxy by calling tools/list using mcp-remote bridge
+// Global in-memory cache for token
+let cachedAccessToken = null;
+
+// Function to refresh the access token directly via HTTP POST
 async function refreshAccessToken() {
-  console.log('Refreshing Zoho CRM access token via mcp-remote proxy...');
-  if (!fs.existsSync(tokensPath) || !fs.existsSync(clientInfoPath)) {
-    throw new Error('OAuth credential files do not exist at expected paths.');
+  console.log('Refreshing Zoho CRM access token via HTTP POST...');
+
+  let refreshToken = process.env.ZOHO_REFRESH_TOKEN;
+  let clientId = process.env.ZOHO_CLIENT_ID;
+  let tokenEndpoint = process.env.ZOHO_TOKEN_ENDPOINT || 'https://mcp.zoho.com/baas/mcp/v1/oauth/6f2a4a91336a7705d9708e245487b1a0/41167000000013038/token';
+
+  // Fallback to local files if environment variables are not set
+  if (!refreshToken || !clientId) {
+    console.log('Environment variables ZOHO_REFRESH_TOKEN or ZOHO_CLIENT_ID not found, falling back to local OAuth config files...');
+    if (fs.existsSync(tokensPath) && fs.existsSync(clientInfoPath)) {
+      try {
+        const tokens = JSON.parse(fs.readFileSync(tokensPath, 'utf8'));
+        const clientInfo = JSON.parse(fs.readFileSync(clientInfoPath, 'utf8'));
+        refreshToken = tokens.refresh_token;
+        clientId = clientInfo.client_id;
+      } catch (err) {
+        throw new Error('Failed to read local OAuth configuration files: ' + err.message);
+      }
+    } else {
+      throw new Error('No Zoho OAuth credentials found (neither environment variables nor local files).');
+    }
   }
 
+  const params = new URLSearchParams({
+    grant_type: 'refresh_token',
+    refresh_token: refreshToken,
+    client_id: clientId
+  });
+
+  const parsedUrl = new URL(tokenEndpoint);
+
   return new Promise((resolve, reject) => {
-    const child = spawn('/usr/local/bin/npx', [
-      'mcp-remote',
-      'https://insurance-masters-calendar-919064954.zohomcp.com/mcp/af8a1bf13c36a72983ec1a47caef0e89/message',
-      '--transport',
-      'http-only'
-    ]);
-
-    let resolved = false;
-    let stdoutData = '';
-
-    child.stdout.on('data', (data) => {
-      const str = data.toString();
-      stdoutData += str;
-      if (stdoutData.includes('{') && !resolved) {
-        resolved = true;
-        child.kill();
-        // Read the updated token from tokensPath after a brief delay
-        setTimeout(() => {
-          try {
-            const tokens = JSON.parse(fs.readFileSync(tokensPath, 'utf8'));
-            console.log('Access token refreshed and loaded successfully via mcp-remote.');
-            resolve(tokens.access_token);
-          } catch (err) {
-            reject(err);
+    const req = https.request({
+      hostname: parsedUrl.hostname,
+      path: parsedUrl.pathname + parsedUrl.search,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        try {
+          const result = JSON.parse(data);
+          if (result.access_token) {
+            cachedAccessToken = result.access_token;
+            console.log('Access token refreshed and loaded successfully via HTTP request.');
+            
+            // Try saving to local file for local dev, but catch errors if file system is read-only
+            if (fs.existsSync(tokensPath)) {
+              try {
+                const tokens = JSON.parse(fs.readFileSync(tokensPath, 'utf8'));
+                tokens.access_token = result.access_token;
+                fs.writeFileSync(tokensPath, JSON.stringify(tokens, null, 2), 'utf8');
+                console.log('Updated local token store file.');
+              } catch (writeErr) {
+                console.warn('Could not write back to local tokens path (might be read-only filesystem):', writeErr.message);
+              }
+            }
+            resolve(result.access_token);
+          } else {
+            reject(new Error('Token refresh response did not contain access_token: ' + data));
           }
-        }, 500);
-      }
+        } catch (e) {
+          reject(new Error('Failed to parse token refresh response: ' + data));
+        }
+      });
     });
 
-    child.stderr.on('data', (data) => {
-      const msg = data.toString().trim();
-      if (msg.includes('Proxy established successfully') && !resolved) {
-        // Send a request to list tools to trigger session token exchange
-        const request = JSON.stringify({
-          jsonrpc: '2.0',
-          method: 'tools/list',
-          params: {},
-          id: 1
-        }) + '\n';
-        child.stdin.write(request);
-      }
-    });
-
-    child.on('close', (code) => {
-      if (!resolved) {
-        reject(new Error(`mcp-remote exited with code ${code} before token refresh could resolve`));
-      }
-    });
-
-    // Timeout after 12 seconds
-    setTimeout(() => {
-      if (!resolved) {
-        child.kill();
-        reject(new Error('mcp-remote token refresh timed out'));
-      }
-    }, 12000);
+    req.on('error', reject);
+    req.write(params.toString());
+    req.end();
   });
 }
 
@@ -184,12 +198,19 @@ app.post('/api/register', async (req, res) => {
 
     console.log('Sending lead payload to Zoho CRM:', JSON.stringify(leadPayload, null, 2));
 
-    // Read current access token
-    if (!fs.existsSync(tokensPath)) {
-      return res.status(500).json({ success: false, error: 'Zoho token store not initialized on server.' });
+    // Read current access token from memory cache or file fallback
+    let accessToken = cachedAccessToken;
+    if (!accessToken) {
+      if (fs.existsSync(tokensPath)) {
+        try {
+          const tokens = JSON.parse(fs.readFileSync(tokensPath, 'utf8'));
+          accessToken = tokens.access_token;
+          cachedAccessToken = accessToken;
+        } catch (err) {
+          console.warn('Failed to read local tokens file:', err.message);
+        }
+      }
     }
-    const tokens = JSON.parse(fs.readFileSync(tokensPath, 'utf8'));
-    let accessToken = tokens.access_token;
 
     let crmResponse = await insertLeadIntoCRM(accessToken, leadPayload);
 

@@ -152,45 +152,77 @@
                 <div class="concerns-counter"><span id="concernCurrent">1</span>/<span id="concernTotal">10</span></div>
               </div>
               <div class="concerns-content">
-                <div class="concern-slide active" data-index="0">
-                  <div class="concern-tag">PSHB & Medicare</div>
-                  <p class="concern-text">USPS employees: the Medicare Part B decision you make now affects your PSHB coverage for life.</p>
-                </div>
-                <div class="concern-slide" data-index="1">
-                  <div class="concern-tag">FEGLI Life Insurance</div>
-                  <p class="concern-text">Option B life insurance premiums can triple after age 50, creating a massive cost squeeze.</p>
-                </div>
-                <div class="concern-slide" data-index="2">
-                  <div class="concern-tag">TSP Retirement</div>
-                  <p class="concern-text">40%+ of postal employees are still in default G Fund, missing critical market growth.</p>
-                </div>
-                <div class="concern-slide" data-index="3">
-                  <div class="concern-tag">Estate Planning</div>
-                  <p class="concern-text">Your TSP-3 beneficiary form overrides your will in court. If outdated, your assets could go to an ex-spouse.</p>
-                </div>
-                <div class="concern-slide" data-index="4">
-                  <div class="concern-tag">FERS Pension</div>
-                  <p class="concern-text">The FERS Special Retirement Supplement disappears if your outside wages exceed $24,480.</p>
-                </div>
-                <div class="concern-slide" data-index="5">
-                  <div class="concern-tag">Pension Penalty</div>
-                  <p class="concern-text">Leaving postal service just 2 years before your MRA can slash your lifetime pension by 10%.</p>
-                </div>
-                <div class="concern-slide" data-index="6">
-                  <div class="concern-tag">Inflation Protection</div>
-                  <p class="concern-text">Your High-3 average salary locks in when you retire. It never adjusts for inflation prior to annuity start.</p>
-                </div>
-                <div class="concern-slide" data-index="7">
-                  <div class="concern-tag">PSHB Health</div>
-                  <p class="concern-text">You must meet the strict 5-year continuous coverage rule to carry PSHB into retirement.</p>
-                </div>
-                <div class="concern-slide" data-index="8">
-                  <div class="concern-tag">FERS Pension</div>
-                  <p class="concern-text">Unused sick leave adds to your retirement service credit, but rounding errors cost real cash.</p>
-                </div>
-                <div class="concern-slide" data-index="9">
-                  <div class="concern-tag">PSHB Health</div>
-                  <p class="concern-text">Most postal employees never review their health plan options, overpaying by hundreds of dollars every year.</p>
+                <div class="concerns-track" id="concernsTrack">
+                  <div class="concern-slide active" data-index="0">
+                    <div class="concern-tag">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                      PSHB & Medicare
+                    </div>
+                    <p class="concern-text">USPS employees: the Medicare Part B decision you make now affects your PSHB coverage for life.</p>
+                  </div>
+                  <div class="concern-slide" data-index="1">
+                    <div class="concern-tag">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                      FEGLI Life Insurance
+                    </div>
+                    <p class="concern-text">Option B life insurance premiums can triple after age 50, creating a massive cost squeeze.</p>
+                  </div>
+                  <div class="concern-slide" data-index="2">
+                    <div class="concern-tag">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                      TSP Retirement
+                    </div>
+                    <p class="concern-text">40%+ of postal employees are still in default G Fund, missing critical market growth.</p>
+                  </div>
+                  <div class="concern-slide" data-index="3">
+                    <div class="concern-tag">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                      Estate Planning
+                    </div>
+                    <p class="concern-text">Your TSP-3 beneficiary form overrides your will in court. If outdated, your assets could go to an ex-spouse.</p>
+                  </div>
+                  <div class="concern-slide" data-index="4">
+                    <div class="concern-tag">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M12 2L2 7h20L12 2z"/><line x1="6" y1="11" x2="6" y2="22"/><line x1="18" y1="11" x2="18" y2="22"/><line x1="12" y1="11" x2="12" y2="22"/></svg>
+                      FERS Pension
+                    </div>
+                    <p class="concern-text">The FERS Special Retirement Supplement disappears if your outside wages exceed $24,480.</p>
+                  </div>
+                  <div class="concern-slide" data-index="5">
+                    <div class="concern-tag">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M12 2L2 7h20L12 2z"/><line x1="6" y1="11" x2="6" y2="22"/><line x1="18" y1="11" x2="18" y2="22"/><line x1="12" y1="11" x2="12" y2="22"/></svg>
+                      Pension Penalty
+                    </div>
+                    <p class="concern-text">Leaving postal service just 2 years before your MRA can slash your lifetime pension by 10%.</p>
+                  </div>
+                  <div class="concern-slide" data-index="6">
+                    <div class="concern-tag">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                      Inflation Protection
+                    </div>
+                    <p class="concern-text">Your High-3 average salary locks in when you retire. It never adjusts for inflation prior to annuity start.</p>
+                  </div>
+                  <div class="concern-slide" data-index="7">
+                    <div class="concern-tag">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                      PSHB Health
+                    </div>
+                    <p class="concern-text">You must meet the strict 5-year continuous coverage rule to carry PSHB into retirement.</p>
+                  </div>
+                  <div class="concern-slide" data-index="8">
+                    <div class="concern-tag">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M12 2L2 7h20L12 2z"/><line x1="6" y1="11" x2="6" y2="22"/><line x1="18" y1="11" x2="18" y2="22"/><line x1="12" y1="11" x2="12" y2="22"/></svg>
+                      FERS Pension
+                    </div>
+                    <p class="concern-text">Unused sick leave adds to your retirement service credit, but rounding errors cost real cash.</p>
+                  </div>
+                  <div class="concern-slide" data-index="9">
+                    <div class="concern-tag">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                      PSHB Health
+                    </div>
+                    <p class="concern-text">Most postal employees never review their health plan options, overpaying by hundreds of dollars every year.</p>
+                  </div>
                 </div>
               </div>
               <div class="concerns-progress">

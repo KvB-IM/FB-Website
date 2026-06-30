@@ -269,18 +269,18 @@ document.head.appendChild(style);
       resetAutoplay();
     });
   }
+  const track = document.getElementById('concernsTrack');
+  let isHovered = false;
 
   function updateCarousel() {
-    // Update slides
+    if (track) {
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+
     slides.forEach((slide, index) => {
-      if (index === currentIndex) {
-        slide.classList.add('active');
-      } else {
-        slide.classList.remove('active');
-      }
+      slide.classList.toggle('active', index === currentIndex);
     });
 
-    // Update dots
     if (dotsContainer) {
       const dots = dotsContainer.querySelectorAll('.nav-dot');
       dots.forEach((dot, index) => {
@@ -288,26 +288,20 @@ document.head.appendChild(style);
       });
     }
 
-    // Update counter
     if (currentText) {
       currentText.textContent = currentIndex + 1;
     }
 
-    // Reset and start progress bar animation
-    resetProgressBar();
+    if (!isHovered) {
+      resetProgressBar();
+    }
   }
 
   function resetProgressBar() {
     if (!progressBar) return;
-    
-    // Stop any running transition by setting width to 0% and removing transition
     progressBar.style.transition = 'none';
     progressBar.style.width = '0%';
-    
-    // Force a reflow/repaint to ensure the browser registers the 0% width instantly
     void progressBar.offsetWidth;
-    
-    // Re-enable transition and set to 100%
     progressBar.style.transition = `width ${slideDuration}ms linear`;
     progressBar.style.width = '100%';
   }
@@ -328,9 +322,7 @@ document.head.appendChild(style);
   }
 
   function startAutoplay() {
-    // Initial progress bar trigger
     resetProgressBar();
-    
     slideInterval = setInterval(() => {
       nextSlide();
     }, slideDuration);
@@ -341,6 +333,20 @@ document.head.appendChild(style);
     startAutoplay();
   }
 
-  // Start the slider
+  concernsCard.addEventListener('mouseenter', () => {
+    isHovered = true;
+    clearInterval(slideInterval);
+    if (progressBar) {
+      const computedWidth = window.getComputedStyle(progressBar).width;
+      progressBar.style.transition = 'none';
+      progressBar.style.width = computedWidth;
+    }
+  });
+
+  concernsCard.addEventListener('mouseleave', () => {
+    isHovered = false;
+    resetAutoplay();
+  });
+
   startAutoplay();
 })();

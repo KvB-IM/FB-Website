@@ -421,15 +421,15 @@ button { cursor: pointer; background: none; border: none; }
 /* Concerns Card Widget */
 .concerns-card {
   width: 100%;
-  max-width: 420px;
-  min-height: 290px;
+  max-width: 480px;
+  min-height: 350px;
   background: rgba(27, 43, 94, 0.45);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
-  padding: var(--space-6);
+  padding: var(--space-8);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -492,7 +492,7 @@ button { cursor: pointer; background: none; border: none; }
   flex-grow: 1;
   position: relative;
   margin-bottom: var(--space-6);
-  min-height: 120px;
+  min-height: 155px;
   overflow: hidden;
 }
 .concerns-track {
@@ -526,7 +526,7 @@ button { cursor: pointer; background: none; border: none; }
   gap: var(--space-2);
 }
 .concern-text {
-  font-size: var(--text-base);
+  font-size: var(--text-lg);
   font-weight: 600;
   color: #FFFFFF;
   line-height: 1.5;
@@ -595,7 +595,10 @@ button { cursor: pointer; background: none; border: none; }
 @media (max-width: 480px) {
   .concerns-card {
     padding: var(--space-4);
-    min-height: 260px;
+    min-height: 230px;
+  }
+  .concerns-content {
+    min-height: 110px;
   }
   .concern-text {
     font-size: var(--text-sm);

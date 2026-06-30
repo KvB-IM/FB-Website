@@ -184,14 +184,17 @@ if (form) {
 }
 
 // Copy link helper
-function copyLink() {
+function copyLink(btn) {
+  const targetBtn = btn || (typeof event !== 'undefined' ? event.target : null);
   navigator.clipboard.writeText(window.location.href).then(() => {
-    const btn = event.target.closest('button');
-    if (btn) {
-      const orig = btn.innerHTML;
-      btn.innerHTML = '✓ Copied!';
-      setTimeout(() => { btn.innerHTML = orig; }, 2000);
+    if (targetBtn) {
+      const buttonEl = targetBtn.closest ? targetBtn.closest('button') : targetBtn;
+      const orig = buttonEl.innerHTML;
+      buttonEl.innerHTML = '✓ Copied!';
+      setTimeout(() => { buttonEl.innerHTML = orig; }, 2000);
     }
+  }).catch(err => {
+    console.error('Failed to copy link:', err);
   });
 }
 

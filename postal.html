@@ -143,7 +143,7 @@
             </div>
           </div>
           <div class="hero-visual">
-            <div class="concerns-card" id="concernsCard">
+            <div class="concerns-stack-container" id="concernsCard">
               <div class="concerns-header">
                 <div class="alert-badge">
                   <span class="pulse-dot"></span>
@@ -151,52 +151,93 @@
                 </div>
                 <div class="concerns-counter"><span id="concernCurrent">1</span>/<span id="concernTotal">10</span></div>
               </div>
-              <div class="concerns-content">
-                <div class="concern-tag-static" id="concernTag"></div>
-                <div class="concerns-track" id="concernsTrack">
-                  <div class="concern-slide active" data-index="0" data-type="mistake">
-                    <p class="concern-text">Assuming your current FEHB plan rolls over into PSHB without checking how your Medicare Part B decision affects it for life.</p>
+              
+              <div class="concerns-stack" id="concernsStack">
+                <div class="concern-card-item card--front" data-index="0" data-type="mistake">
+                  <div class="concern-tag">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    Are You Making This Mistake?
                   </div>
-                  <div class="concern-slide" data-index="1" data-type="knowledge">
-                    <p class="concern-text">Option B life insurance premiums can triple after age 50, creating a massive cost squeeze.</p>
+                  <p class="concern-text">Assuming your current FEHB plan rolls over into PSHB without checking how your Medicare Part B decision affects it for life.</p>
+                </div>
+                <div class="concern-card-item card--middle" data-index="1" data-type="knowledge">
+                  <div class="concern-tag">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    Did You Know?
                   </div>
-                  <div class="concern-slide" data-index="2" data-type="mistake">
-                    <p class="concern-text">Leaving 40%+ of your TSP in the default G Fund, missing out on critical market growth.</p>
+                  <p class="concern-text">Option B life insurance premiums can triple after age 50, creating a massive cost squeeze.</p>
+                </div>
+                <div class="concern-card-item card--back" data-index="2" data-type="mistake">
+                  <div class="concern-tag">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    Are You Making This Mistake?
                   </div>
-                  <div class="concern-slide" data-index="3" data-type="mistake">
-                    <p class="concern-text">Assuming your will overrides your TSP-3 beneficiary form. If outdated, your assets could go to an ex-spouse.</p>
+                  <p class="concern-text">Leaving 40%+ of your TSP in the default G Fund, missing out on critical market growth.</p>
+                </div>
+                <div class="concern-card-item card--hidden" data-index="3" data-type="mistake">
+                  <div class="concern-tag">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    Are You Making This Mistake?
                   </div>
-                  <div class="concern-slide" data-index="4" data-type="knowledge">
-                    <p class="concern-text">The FERS Special Retirement Supplement disappears if your outside wages exceed $24,480.</p>
+                  <p class="concern-text">Assuming your will overrides your TSP-3 beneficiary form. If outdated, your assets could go to an ex-spouse.</p>
+                </div>
+                <div class="concern-card-item card--hidden" data-index="4" data-type="knowledge">
+                  <div class="concern-tag">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    Did You Know?
                   </div>
-                  <div class="concern-slide" data-index="5" data-type="mistake">
-                    <p class="concern-text">Leaving postal service just 2 years before your MRA can slash your lifetime pension by 10%.</p>
+                  <p class="concern-text">The FERS Special Retirement Supplement disappears if your outside wages exceed $24,480.</p>
+                </div>
+                <div class="concern-card-item card--hidden" data-index="5" data-type="mistake">
+                  <div class="concern-tag">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    Are You Making This Mistake?
                   </div>
-                  <div class="concern-slide" data-index="6" data-type="knowledge">
-                    <p class="concern-text">Your High-3 average salary locks in when you retire. It never adjusts for inflation prior to annuity start.</p>
+                  <p class="concern-text">Leaving postal service just 2 years before your MRA can slash your lifetime pension by 10%.</p>
+                </div>
+                <div class="concern-card-item card--hidden" data-index="6" data-type="knowledge">
+                  <div class="concern-tag">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    Did You Know?
                   </div>
-                  <div class="concern-slide" data-index="7" data-type="knowledge">
-                    <p class="concern-text">You must meet the strict 5-year continuous coverage rule to carry PSHB into retirement.</p>
+                  <p class="concern-text">Your High-3 average salary locks in when you retire. It never adjusts for inflation prior to annuity start.</p>
+                </div>
+                <div class="concern-card-item card--hidden" data-index="7" data-type="knowledge">
+                  <div class="concern-tag">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    Did You Know?
                   </div>
-                  <div class="concern-slide" data-index="8" data-type="mistake">
-                    <p class="concern-text">Losing money on unused sick leave due to FERS rounding math. Calculating details incorrectly costs real cash.</p>
+                  <p class="concern-text">You must meet the strict 5-year continuous coverage rule to carry PSHB into retirement.</p>
+                </div>
+                <div class="concern-card-item card--hidden" data-index="8" data-type="mistake">
+                  <div class="concern-tag">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    Are You Making This Mistake?
                   </div>
-                  <div class="concern-slide" data-index="9" data-type="mistake">
-                    <p class="concern-text">Most postal employees never review their health plan options, overpaying by hundreds of dollars every year.</p>
+                  <p class="concern-text">Losing money on unused sick leave due to FERS rounding math. Calculating details incorrectly costs real cash.</p>
+                </div>
+                <div class="concern-card-item card--hidden" data-index="9" data-type="mistake">
+                  <div class="concern-tag">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    Are You Making This Mistake?
                   </div>
+                  <p class="concern-text">Most postal employees never review their health plan options, overpaying by hundreds of dollars every year.</p>
                 </div>
               </div>
-              <div class="concerns-progress">
-                <div class="progress-bar" id="concernProgress"></div>
-              </div>
-              <div class="concerns-nav">
-                <button class="nav-arrow" id="prevConcern" aria-label="Previous alert">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-                </button>
-                <div class="nav-dots" id="concernDots"></div>
-                <button class="nav-arrow" id="nextConcern" aria-label="Next alert">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-                </button>
+              
+              <div class="concerns-controls">
+                <div class="concerns-progress">
+                  <div class="progress-bar" id="concernProgress"></div>
+                </div>
+                <div class="concerns-nav">
+                  <button class="nav-arrow" id="prevConcern" aria-label="Previous alert">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                  </button>
+                  <div class="nav-dots" id="concernDots"></div>
+                  <button class="nav-arrow" id="nextConcern" aria-label="Next alert">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

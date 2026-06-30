@@ -112,8 +112,8 @@
 
 /* --- Base Reset --- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; scroll-padding-top: 80px; -webkit-font-smoothing: antialiased; }
-body { font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text); background: var(--color-bg); line-height: 1.65; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+body { font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text); background: var(--color-bg); line-height: 1.65; overflow-x: hidden; }
 img, picture, video { display: block; max-width: 100%; height: auto; }
 ul[role="list"] { list-style: none; }
 input, button, textarea, select { font: inherit; color: inherit; }
@@ -277,6 +277,7 @@ button { cursor: pointer; background: none; border: none; }
   .header-nav { display: none; }
   .menu-btn { display: flex; }
   .header-inner { padding: var(--space-2) var(--space-4); }
+  .logo-img { height: 32px; }
 }
 
 /* =========================================================

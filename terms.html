@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service — Federal Benefits Exchange</title>
+  <meta name="description" content="Federal Benefits Exchange Terms of Service. Review rules, responsibilities, SMS/text messaging terms, and government disclaimers." />
+  <meta property="og:title" content="Terms of Service — Federal Benefits Exchange" />
+  <meta property="og:description" content="Federal Benefits Exchange Terms of Service. Review rules, responsibilities, SMS/text messaging terms, and government disclaimers." />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts -->
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    .terms-container {
+      max-width: var(--content-narrow);
+      margin: 0 auto;
+      padding: var(--space-12) 0;
+    }
+    .terms-content {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+    .terms-section h2 {
+      font-size: var(--text-lg);
+      margin-bottom: var(--space-3);
+      color: var(--color-navy);
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: var(--space-2);
+    }
+    [data-theme="dark"] .terms-section h2 {
+      color: var(--color-orange);
+    }
+    .terms-section p {
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-4);
+      line-height: 1.7;
+    }
+    .terms-section ul {
+      margin-left: var(--space-6);
+      margin-bottom: var(--space-4);
+      color: var(--color-text-muted);
+    }
+    .terms-section li {
+      margin-bottom: var(--space-2);
+      line-height: 1.6;
+    }
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      background: var(--color-surface-2);
+      padding: var(--space-4);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-muted);
+      margin-top: var(--space-4);
+    }
+    .contact-details strong {
+      color: var(--color-text);
+    }
+    @media (max-width: 600px) {
+      .terms-content {
+        padding: var(--space-5);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- STICKY HEADER -->
+  <header class="header" id="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo" aria-label="Federal Benefits Exchange">
+        <img src="logo.png" alt="Federal Benefits Exchange Logo" class="logo-img" />
+      </a>
+      <nav class="header-nav">
+        <a href="index.html#benefits">What You'll Learn</a>
+        <a href="index.html#topics">Topics</a>
+        <a href="blog.html">Blog</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <svg class="theme-icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="theme-icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+        <a href="index.html#register" class="btn btn-outline btn-sm">Register Free</a>
+      </nav>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+    <!-- Mobile nav -->
+    <div class="mobile-nav" id="mobileNav">
+      <a href="index.html#benefits" onclick="closeMobileNav()">What You'll Learn</a>
+      <a href="index.html#topics" onclick="closeMobileNav()">Topics</a>
+      <a href="blog.html" onclick="closeMobileNav()">Blog</a>
+      <div class="mobile-nav-theme-row">
+        <button class="theme-toggle" id="mobileThemeToggle" aria-label="Toggle theme">
+          <svg class="theme-icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="theme-icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+        <a href="index.html#register" class="btn btn-outline" onclick="closeMobileNav()">Register Free</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="blog-hero">
+      <div class="container">
+        <h1>Terms of Service</h1>
+        <p>Last Updated: January 2026</p>
+      </div>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="section">
+      <div class="container">
+        <div class="terms-container">
+          <div class="breadcrumbs">
+            <a href="index.html">Home</a>
+            <span>&gt;</span>
+            <span>Terms of Service</span>
+          </div>
+
+          <div class="terms-content">
+            <p style="color: var(--color-text-muted); font-size: var(--text-base); font-style: italic; line-height: 1.7; border-left: 4px solid var(--color-orange); padding-left: var(--space-4);">Welcome to Federal Benefits Exchange. These Terms of Service ("Terms") govern your access to and use of our website and services. By accessing or using our services, you agree to be bound by these Terms.</p>
+
+            <div class="terms-section">
+              <h2>1. Acceptance of Terms</h2>
+              <p>By using this website, you confirm that you have read, understood, and agree to these Terms. If you do not agree, please refrain from using our services. Federal Benefits Exchange is a private consulting firm and is not affiliated with, endorsed by, or part of any government agency.</p>
+            </div>
+
+            <div class="terms-section">
+              <h2>2. Description of Services</h2>
+              <p>Federal Benefits Exchange provides educational workshops, benefit analysis reports, and retirement planning consultation specifically designed for federal employees. Our services are intended for informational purposes and do not constitute legal, tax, or investment advice.</p>
+            </div>
+
+            <div class="terms-section">
+              <h2>3. No Government Affiliation</h2>
+              <p>You acknowledge that Federal Benefits Exchange is an independent organization and is not affiliated with, endorsed by, or sponsored by any U.S. government agency. All educational materials and services are provided for informational purposes only and should not be interpreted as official government communication.</p>
+              <p>Message frequency varies. Message and data rates may apply. You can opt-out of SMS communications at any time by replying STOP.</p>
+            </div>
+
+            <div class="terms-section">
+              <h2>4. User Responsibilities</h2>
+              <p>When requesting a Benefit Analysis Report or attending a workshop, you agree to provide accurate, current, and complete information about your federal employment and benefits. You are solely responsible for reviewing all recommendations and verifying how any decisions may affect your personal financial situation and retirement income.</p>
+            </div>
+
+            <div class="terms-section">
+              <h2>5. Intellectual Property</h2>
+              <p>All content on this website, including text, graphics, logos, videos, and downloadable materials, is the property of Federal Benefits Exchange or its content providers and is protected by applicable copyright, trademark, and other intellectual property laws. You may not reproduce, distribute, modify, or create derivative works from any content without prior written consent.</p>
+            </div>
+
+            <div class="terms-section">
+              <h2>6. Governing Law</h2>
+              <p>These Terms are governed by the laws of the State of South Carolina, without regard to its conflict of law principles. Any disputes arising from or relating to these Terms or your use of this website shall be resolved exclusively in the state or federal courts located in South Carolina.</p>
+            </div>
+
+            <div class="terms-section">
+              <h2>7. SMS/Text Messaging Terms</h2>
+              <p>By opting in to receive SMS text messages from Federal Benefits Exchange, you agree to receive communications regarding your benefits review, appointment reminders, and related updates. Message and data rates may apply. Message frequency varies. You can cancel the SMS service at any time by replying "STOP". After you send the SMS message "STOP" to us, we will send you an SMS message to confirm that you have been unsubscribed. After this, you will no longer receive SMS messages from us.</p>
+              <p>If you are experiencing issues with the messaging program you can reply with the keyword "HELP" for more assistance, or you can get help directly at support@federalbenefitsexchange.com or (706) 407-2744.</p>
+            </div>
+
+            <div class="terms-section">
+              <h2>8. Contact Information</h2>
+              <p>If you have any questions about these Terms or our services, please contact us at:</p>
+              <div class="contact-details">
+                <div><strong>Email:</strong> support@federalbenefitsexchange.com</div>
+                <div><strong>Phone:</strong> (706) 407-2744</div>
+                <div><strong>Address:</strong> 332 Edgefield Rd, North Augusta, SC 29841</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="logo.png" alt="Federal Benefits Exchange Logo" class="logo-img" />
+        <p class="footer-tagline">Augusta, Georgia — Serving USPS employees nationwide</p>
+      </div>
+      <div class="footer-links">
+        <a href="index.html#benefits">What You'll Learn</a>
+        <a href="index.html#faq">FAQ</a>
+        <a href="blog.html">Blog</a>
+        <a href="index.html#register">Register Free</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+      </div>
+      <p class="footer-legal">© 2026 Federal Benefits Exchange. Federal Benefits Exchange is an independent benefits education organization and is not affiliated with, endorsed by, or connected to the United States Postal Service, OPM, or any government agency. This webinar is for educational purposes only.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

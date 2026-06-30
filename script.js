@@ -1,16 +1,15 @@
 /* Federal Benefits Exchange — Landing Page JS */
 
-// --- Scroll-aware header ---
-(function () {
-  const header = document.getElementById('header');
-  let lastScroll = 0;
-  window.addEventListener('scroll', () => {
-    const current = window.scrollY;
-    if (current > 60) header.classList.add('header--scrolled');
-    else header.classList.remove('header--scrolled');
-    lastScroll = current;
-  }, { passive: true });
-})();
+// --- Scroll-aware header fallback ---
+if (!CSS.supports('animation-timeline', 'scroll()')) {
+  (function () {
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) header.classList.add('header--scrolled');
+      else header.classList.remove('header--scrolled');
+    }, { passive: true });
+  })();
+}
 
 // --- Mobile Nav ---
 const menuBtn = document.getElementById('menuBtn');
@@ -34,37 +33,40 @@ function closeMobileNav() {
   }
 }
 
-// --- FAQ Accordion ---
-document.querySelectorAll('.faq-question').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const expanded = btn.getAttribute('aria-expanded') === 'true';
-    // Close all
-    document.querySelectorAll('.faq-question').forEach(b => {
-      b.setAttribute('aria-expanded', 'false');
-      const ans = b.nextElementSibling;
-      if (ans) ans.classList.remove('is-open');
+// --- FAQ Accordion fallback for older browsers ---
+(function() {
+  const detailsElements = document.querySelectorAll('details[name="faq-accordion"]');
+  detailsElements.forEach(targetDetails => {
+    targetDetails.addEventListener('toggle', () => {
+      if (targetDetails.open) {
+        detailsElements.forEach(detail => {
+          if (detail !== targetDetails && detail.open) {
+            detail.open = false;
+          }
+        });
+      }
     });
-    // Toggle clicked
-    if (!expanded) {
-      btn.setAttribute('aria-expanded', 'true');
-      const answer = btn.nextElementSibling;
-      if (answer) answer.classList.add('is-open');
-    }
   });
-});
+})();
 
-// --- Scroll Animations ---
-const animateEls = document.querySelectorAll('.benefit-card, .testimonial-card, .faq-item, .section-header, .who-content, .register-content');
-animateEls.forEach(el => el.classList.add('animate-in'));
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12 });
-animateEls.forEach(el => observer.observe(el));
+// --- Scroll Animations fallback ---
+if (!CSS.supports('animation-timeline', 'view()')) {
+  const animateEls = document.querySelectorAll('.benefit-card, .testimonial-card, .faq-item, .section-header, .who-content, .register-content');
+  animateEls.forEach(el => el.classList.add('animate-in'));
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  animateEls.forEach(el => observer.observe(el));
+} else {
+  // If native Scroll-Driven Animations are supported, we still need to add 'animate-in' class to make them active
+  document.querySelectorAll('.benefit-card, .testimonial-card, .faq-item, .section-header, .who-content, .register-content')
+    .forEach(el => el.classList.add('animate-in'));
+}
 
 // --- Phone formatting ---
 const phoneInput = document.getElementById('phone');
@@ -78,63 +80,110 @@ if (phoneInput) {
   });
 }
 
-// --- Form Submission ---
+// --- Form Submission & Validation ---
 const form = document.getElementById('registerForm');
 const formSuccess = document.getElementById('formSuccess');
 const submitBtn = document.getElementById('submitBtn');
 
 if (form) {
-  form.addEventListener('submit', async (e) => {
+  const syncAria = (el) => {
+    if (el.checkValidity) {
+      const isValid = el.checkValidity();
+      el.setAttribute('aria-invalid', isValid ? 'false' : 'true');
+      el.classList.toggle('error', !isValid);
+      
+      if (el.id === 'consent') {
+        el.closest('.form-consent').classList.toggle('has-error', !isValid);
+      }
+    }
+  };
+
+  form.addEventListener('blur', (e) => {
+    if (e.target.matches('input, select, textarea')) {
+      syncAria(e.target);
+    }
+  }, true);
+
+  form.addEventListener('input', (e) => {
+    if (e.target.hasAttribute('aria-invalid')) {
+      syncAria(e.target);
+    }
+  });
+
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    // Basic validation
-    const firstName = document.getElementById('firstName').value.trim();
-    const lastName = document.getElementById('lastName').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const consent = document.getElementById('consent').checked;
+    const inputs = form.querySelectorAll('input, select');
+    let firstInvalid = null;
+    
+    inputs.forEach(input => {
+      syncAria(input);
+      if (!input.checkValidity() && !firstInvalid) {
+        firstInvalid = input;
+      }
+    });
 
-    let valid = true;
-    if (!firstName) { markError('firstName'); valid = false; }
-    if (!lastName) { markError('lastName'); valid = false; }
-    if (!email || !email.includes('@')) { markError('email'); valid = false; }
-    if (!consent) {
-      document.getElementById('consent').closest('.form-consent').style.outline = '2px solid #DC2626';
-      valid = false;
+    if (!form.checkValidity()) {
+      if (firstInvalid) firstInvalid.focus();
+      return;
     }
-    if (!valid) return;
 
     // Loading state
     submitBtn.disabled = true;
+    const originalBtnHTML = submitBtn.innerHTML;
     submitBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" opacity="0.2"/><path d="M21 12a9 9 0 00-9-9"/></svg> Registering...';
 
-    // Simulate submission (replace with real endpoint)
-    await new Promise(r => setTimeout(r, 1400));
+    const payload = {
+      firstName: document.getElementById('firstName').value.trim(),
+      lastName: document.getElementById('lastName').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      webinarDate: document.getElementById('webinarDate').value,
+      yearsService: document.getElementById('yearsService').value,
+      topic: document.getElementById('topic').value,
+      agency: document.getElementById('agency') ? document.getElementById('agency').value : 'Federal'
+    };
 
-    // Show success
-    form.style.display = 'none';
-    formSuccess.style.display = 'flex';
-    formSuccess.style.flexDirection = 'column';
+    fetch('/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        // Show success state
+        form.style.display = 'none';
+        formSuccess.style.display = 'flex';
+        formSuccess.style.flexDirection = 'column';
 
-    // Track conversion event (if Meta Pixel is installed)
-    if (typeof fbq !== 'undefined') {
-      fbq('track', 'CompleteRegistration', {
-        content_name: 'USPS Benefits Webinar',
-        currency: 'USD',
-        value: 0
-      });
-    }
+        // Track conversion event (if Meta Pixel is installed)
+        if (typeof fbq !== 'undefined') {
+          fbq('track', 'Lead');
+          fbq('track', 'CompleteRegistration', {
+            content_name: payload.agency === 'USPS' ? 'USPS Benefits Webinar' : 'Federal Benefits Webinar',
+            currency: 'USD',
+            value: 0
+          });
+        }
+      } else {
+        alert(data.error || 'An error occurred during registration. Please check your details and try again.');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnHTML;
+      }
+    })
+    .catch(err => {
+      console.error('Registration error:', err);
+      alert('Network error. Please try again later.');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnHTML;
+    });
   });
 }
 
-function markError(id) {
-  const el = document.getElementById(id);
-  if (el) {
-    el.classList.add('error');
-    el.addEventListener('input', () => el.classList.remove('error'), { once: true });
-  }
-}
-
-// Copy link
+// Copy link helper
 function copyLink() {
   navigator.clipboard.writeText(window.location.href).then(() => {
     const btn = event.target.closest('button');
@@ -151,16 +200,22 @@ const style = document.createElement('style');
 style.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
 document.head.appendChild(style);
 
-// Dark mode toggle (attach to any [data-theme-toggle] element)
+// --- Dark Mode Switcher ---
 (function () {
-  const t = document.querySelector('[data-theme-toggle]');
-  const r = document.documentElement;
-  let d = matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
-  r.setAttribute('data-theme', d);
-  if (t) {
-    t.addEventListener('click', () => {
-      d = d === 'dark' ? 'light' : 'dark';
-      r.setAttribute('data-theme', d);
+  const root = document.documentElement;
+  const toggles = document.querySelectorAll('.theme-toggle');
+  
+  const savedTheme = localStorage.getItem('theme');
+  const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  let currentTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+  
+  root.setAttribute('data-theme', currentTheme);
+  
+  toggles.forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', currentTheme);
+      localStorage.setItem('theme', currentTheme);
     });
-  }
+  });
 })();

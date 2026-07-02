@@ -1624,3 +1624,7 @@ button { cursor: pointer; background: none; border: none; }
   flex-shrink: 0;
 }
 
+/* Fix mobile scroll target for Register Free buttons */
+#register-scroll-target {
+  scroll-margin-top: 100px;
+}

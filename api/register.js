@@ -245,6 +245,7 @@ module.exports = async function handler(req, res) {
       Mobile_Phone: cleanPhone,
       Leads_Agent: 'FB Website',
       Stage: 'Webinar',
+      Webinar_Date: webinarDate,
       Webinar_Appointment: webinarDate,
       Notes_Questions: notes.trim()
     };
@@ -295,7 +296,37 @@ module.exports = async function handler(req, res) {
     if (crmResponse.data && crmResponse.data[0]) {
       const recordStatus = crmResponse.data[0];
       if (recordStatus.status === 'success') {
-        // SUCCESS: Now also send to Meta Conversions API (fire and forget)
+        // SUCCESS: Send notification email to support
+        const emailContent = `
+          New Webinar Signup Received!
+          
+          Name: ${fullName}
+          Email: ${email.trim()}
+          Phone: ${cleanPhone}
+          Agency: ${registrationAgency}
+          Years of Service: ${serviceMap[yearsService] || yearsService}
+          Interested Topic: ${topicMap[topic] || topic}
+          Selected Webinar: ${dateMap[webinarDate] || webinarDate}
+          
+          Technical Data:
+          User Agent: ${req.body.clientUserAgent || 'N/A'}
+          Event Source URL: ${req.body.eventSourceUrl || 'N/A'}
+          Event ID: ${req.body.eventId || 'N/A'}
+          FBP: ${req.body.fbp || 'N/A'}
+          FBC: ${req.body.fbc || 'N/A'}
+          
+          Date of Signup: ${new Date().toLocaleString()}
+        `;
+
+        // Send email via MCP (Fire and forget)
+        const sendEmailCmd = `npx mcp-remote https://insurance-masters-calendar-919064954.zohomcp.com/mcp/af8a1bf13c36a72983ec1a47caef0e89/message --call-tool ZohoMail_sendEmail --toAddress "support@federalbenefitsexchange.com" --subject "New Webinar Signup: ${fullName}" --content "${emailContent.replace(/"/g, '\\"')}"`;
+        
+        // Use child_process to trigger the MCP command without blocking the response
+        require('child_process').exec(sendEmailCmd, (err) => {
+          if (err) console.error('Failed to send notification email:', err);
+        });
+
+        // Also send to Meta Conversions API (Fire and forget)
         const metaUserData = {
           email: email.trim(),
           phone: cleanPhone,

@@ -166,9 +166,11 @@ module.exports = async function handler(req, res) {
     let notes = '';
     if (webinarDate) {
       const dateMap = {
-        '2026-07-02T19:00:00-04:00': 'Thursday, July 2 at 7:00 PM EDT',
-        '2026-07-09T19:00:00-04:00': 'Thursday, July 9 at 7:00 PM EDT',
-        '2026-07-16T19:00:00-04:00': 'Thursday, July 16 at 7:00 PM EDT'
+        '2026-07-22T14:00:00-04:00': 'Wednesday, July 22 at 2:00 PM EDT',
+        '2026-07-29T14:00:00-04:00': 'Wednesday, July 29 at 2:00 PM EDT',
+        '2026-08-05T14:00:00-04:00': 'Wednesday, August 5 at 2:00 PM EDT',
+        '2026-08-12T14:00:00-04:00': 'Wednesday, August 12 at 2:00 PM EDT',
+        '2026-08-19T14:00:00-04:00': 'Wednesday, August 19 at 2:00 PM EDT'
       };
       const humanDate = dateMap[webinarDate] || webinarDate;
       notes += `Selected Webinar: ${humanDate}\n`;

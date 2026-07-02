@@ -133,6 +133,16 @@ if (form) {
     const originalBtnHTML = submitBtn.innerHTML;
     submitBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" opacity="0.2"/><path d="M21 12a9 9 0 00-9-9"/></svg> Registering...';
 
+    // Generate a unique event ID for Meta CAPI deduplication
+    const eventId = 'event_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+
+    // Get Meta Cookies if they exist
+    const getCookie = (name) => {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    };
+
     const payload = {
       firstName: document.getElementById('firstName').value.trim(),
       lastName: document.getElementById('lastName').value.trim(),
@@ -141,8 +151,22 @@ if (form) {
       webinarDate: document.getElementById('webinarDate').value,
       yearsService: document.getElementById('yearsService').value,
       topic: document.getElementById('topic').value,
-      agency: document.getElementById('agency') ? document.getElementById('agency').value : 'Federal'
+      agency: document.getElementById('agency') ? document.getElementById('agency').value : 'Federal',
+      // Meta CAPI data
+      eventId: eventId,
+      clientUserAgent: navigator.userAgent,
+      eventSourceUrl: window.location.href,
+      fbp: getCookie('_fbp'),
+      fbc: getCookie('_fbc')
     };
+
+    // Trigger Browser Pixel event manually with the same eventId for deduplication
+    if (typeof fbq === 'function') {
+      fbq('track', 'Lead', {
+        content_name: 'Webinar Registration',
+        content_category: payload.agency === 'USPS' ? 'USPS' : 'Federal'
+      }, { eventID: eventId });
+    }
 
     fetch('/api/register', {
       method: 'POST',

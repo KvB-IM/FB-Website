@@ -1,5 +1,13 @@
 const fs = require('fs');
 const https = require('https');
+const bizSdk = require('facebook-nodejs-business-sdk');
+
+const META_ACCESS_TOKEN = process.env.META_ACCESS_TOKEN;
+const META_PIXEL_ID = process.env.META_PIXEL_ID;
+
+if (META_ACCESS_TOKEN) {
+  bizSdk.FacebookAdsApi.init(META_ACCESS_TOKEN);
+}
 
 // Path to Zoho MCP OAuth config files
 const tokensPath = '/Users/Work/.mcp-auth/mcp-remote-0.1.37/ffbea0455b66e4e46198c79cef6a5283_tokens.json';
@@ -136,6 +144,49 @@ async function insertLeadIntoCRM(accessToken, leadData) {
   });
 }
 
+// Function to send event to Meta Conversions API
+async function sendMetaCapiEvent(req, userData, eventData) {
+  if (!META_ACCESS_TOKEN || !META_PIXEL_ID) {
+    console.warn('Meta CAPI skipped: META_ACCESS_TOKEN or META_PIXEL_ID not configured.');
+    return;
+  }
+
+  const { ServerEvent, EventRequest, UserData } = bizSdk;
+  
+  try {
+    // 1. Setup User Data
+    const user = (new UserData())
+      .setEmail(userData.email)
+      .setPhone(userData.phone)
+      .setFirstName(userData.firstName)
+      .setLastName(userData.lastName)
+      .setClientIpAddress(req.headers['x-forwarded-for'] || req.socket.remoteAddress)
+      .setClientUserAgent(userData.clientUserAgent);
+
+    if (userData.fbp) user.setFbp(userData.fbp);
+    if (userData.fbc) user.setFbc(userData.fbc);
+
+    // 2. Setup Event
+    const serverEvent = (new ServerEvent())
+      .setEventName('Lead')
+      .setEventTime(Math.floor(new Date() / 1000))
+      .setUserData(user)
+      .setEventSourceUrl(userData.eventSourceUrl)
+      .setEventId(userData.eventId) // For Deduplication
+      .setActionSource('website');
+
+    // 3. Execute Request
+    const eventRequest = (new EventRequest(META_ACCESS_TOKEN, META_PIXEL_ID))
+      .setEvents([serverEvent]);
+      
+    const response = await eventRequest.execute();
+    console.log('Meta CAPI Success:', JSON.stringify(response));
+    return response;
+  } catch (error) {
+    console.error('Meta CAPI Error:', error.message);
+  }
+}
+
 // Serverless / Express request handler
 module.exports = async function handler(req, res) {
   // Set CORS headers if needed, and handle preflight
@@ -244,6 +295,20 @@ module.exports = async function handler(req, res) {
     if (crmResponse.data && crmResponse.data[0]) {
       const recordStatus = crmResponse.data[0];
       if (recordStatus.status === 'success') {
+        // SUCCESS: Now also send to Meta Conversions API (fire and forget)
+        const metaUserData = {
+          email: email.trim(),
+          phone: cleanPhone,
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          clientUserAgent: req.body.clientUserAgent,
+          eventSourceUrl: req.body.eventSourceUrl,
+          eventId: req.body.eventId,
+          fbp: req.body.fbp,
+          fbc: req.body.fbc
+        };
+        sendMetaCapiEvent(req, metaUserData).catch(err => console.error('Meta Background Error:', err));
+
         return res.status(200).json({ success: true, id: recordStatus.details.id });
       } else {
         return res.status(400).json({ success: false, error: recordStatus.message, details: recordStatus.details });

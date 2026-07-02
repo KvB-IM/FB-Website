@@ -1628,3 +1628,170 @@ button { cursor: pointer; background: none; border: none; }
 #register {
   scroll-margin-top: 120px;
 }
+#save-your-seat {
+  scroll-margin-top: 100px;
+}
+
+/* =========================================================
+   INDEPENDENCE DISCLAIMER BAR
+   ========================================================= */
+.disclaimer-bar {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-3) 0;
+  text-align: center;
+}
+.disclaimer-bar p {
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  line-height: 1.5;
+  margin: 0;
+  max-width: 70ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+[data-theme="dark"] .disclaimer-bar {
+  background: rgba(20, 25, 41, 0.6);
+}
+
+/* =========================================================
+   EDUCATIONAL DISCLAIMER (before form)
+   ========================================================= */
+.edu-disclaimer {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+.edu-disclaimer p {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin: 0;
+  font-style: italic;
+}
+[data-theme="dark"] .edu-disclaimer {
+  background: var(--color-surface-2);
+  border-color: var(--color-border);
+}
+
+/* =========================================================
+   "WHAT THIS IS / WHAT THIS IS NOT" BLOCK
+   ========================================================= */
+.what-this-is {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  margin: var(--space-8) 0;
+}
+@media (max-width: 640px) {
+  .what-this-is { grid-template-columns: 1fr; }
+}
+.what-this-is-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+}
+.what-this-is-card h3 {
+  font-size: var(--text-base);
+  font-weight: 700;
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.what-this-is-card.is-card h3 { color: var(--color-success); }
+.what-this-is-card.isnot-card h3 { color: var(--color-text-muted); }
+.what-this-is-card ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.what-this-is-card li {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  padding-left: var(--space-5);
+  position: relative;
+  line-height: 1.5;
+}
+.what-this-is-card.is-card li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--color-success);
+  font-weight: 800;
+  font-size: 0.75rem;
+  top: 2px;
+}
+.what-this-is-card.isnot-card li::before {
+  content: '✕';
+  position: absolute;
+  left: 0;
+  color: var(--color-text-faint);
+  font-weight: 800;
+  font-size: 0.75rem;
+  top: 2px;
+}
+
+/* =========================================================
+   "WHAT HAPPENS AFTER I REGISTER?" SECTION
+   ========================================================= */
+.after-register {
+  max-width: 760px;
+  margin: 0 auto;
+}
+.after-register-inner {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+}
+.after-register-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  counter-reset: step;
+}
+.after-register-step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  counter-increment: step;
+}
+.after-register-step::before {
+  content: counter(step);
+  width: 32px;
+  height: 32px;
+  background: var(--color-orange);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: var(--text-sm);
+  flex-shrink: 0;
+}
+.after-register-step p {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  padding-top: var(--space-1);
+}
+.after-register-step strong {
+  color: var(--color-text);
+}
+
+/* =========================================================
+   TSP LANDING PAGE — HERO VARIANT
+   ========================================================= */
+.hero-tsp .hero-headline {
+  font-size: var(--text-2xl);
+}
+.hero-tsp .hero-sub {
+  font-size: var(--text-base);
+  max-width: 48ch;
+}

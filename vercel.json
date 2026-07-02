@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/tsp-webinar",
+      "destination": "/tsp-webinar.html"
+    },
+    {
       "source": "/api/:path*",
       "destination": "/server.js"
     }

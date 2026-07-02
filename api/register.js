@@ -28,6 +28,14 @@ const topicMap = {
   'all': 'All three equally'
 };
 
+const dateMap = {
+  '2026-07-22T14:00:00-04:00': 'Wednesday, July 22 at 2:00 PM EDT',
+  '2026-07-29T14:00:00-04:00': 'Wednesday, July 29 at 2:00 PM EDT',
+  '2026-08-05T14:00:00-04:00': 'Wednesday, August 5 at 2:00 PM EDT',
+  '2026-08-12T14:00:00-04:00': 'Wednesday, August 12 at 2:00 PM EDT',
+  '2026-08-19T14:00:00-04:00': 'Wednesday, August 19 at 2:00 PM EDT'
+};
+
 // Global in-memory cache for token
 let cachedAccessToken = null;
 
@@ -216,13 +224,6 @@ module.exports = async function handler(req, res) {
     // Format Notes_Questions from service/topic selection
     let notes = '';
     if (webinarDate) {
-      const dateMap = {
-        '2026-07-22T14:00:00-04:00': 'Wednesday, July 22 at 2:00 PM EDT',
-        '2026-07-29T14:00:00-04:00': 'Wednesday, July 29 at 2:00 PM EDT',
-        '2026-08-05T14:00:00-04:00': 'Wednesday, August 5 at 2:00 PM EDT',
-        '2026-08-12T14:00:00-04:00': 'Wednesday, August 12 at 2:00 PM EDT',
-        '2026-08-19T14:00:00-04:00': 'Wednesday, August 19 at 2:00 PM EDT'
-      };
       const humanDate = dateMap[webinarDate] || webinarDate;
       notes += `Selected Webinar: ${humanDate}\n`;
     }
